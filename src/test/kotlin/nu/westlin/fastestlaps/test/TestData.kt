@@ -12,7 +12,7 @@ val adam = Driver(2, "Adam")
 val allDrivers = mutableListOf(peter, adam)
 
 val hedemora = Track(1, "Hedemora")
-val amsberg = Track(2, "Hedemora")
+val amsberg = Track(2, "Amsberg")
 val allTracks = mutableListOf(hedemora, amsberg)
 
 

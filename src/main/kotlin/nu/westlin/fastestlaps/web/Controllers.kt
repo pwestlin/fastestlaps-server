@@ -61,38 +61,21 @@ class TrackController(val trackRepository: TrackRepository) {
 
 @RestController
 @RequestMapping("/laptimes")
-class LaptimeController(
-    val trackRepository: TrackRepository,
-    val laptimeRepository: LaptimeRepository,
-    val driverRepository: DriverRepository) {
+class LaptimeController(val laptimeRepository: LaptimeRepository) {
 
     @GetMapping(produces = arrayOf(APPLICATION_JSON_UTF8_VALUE))
-    fun all() = laptimeRepository.all()
+    fun byParameters(@RequestParam(required = false) trackId: Int?, @RequestParam(required = false) driverId: Int?): List<Laptime> {
+        // TODO petves: Insert conditions (trackId != null and driverId != null) directly into the stream, just for learning and fun :)
+        // Se Java example at https://stackoverflow.com/questions/42424191/java-8-applying-stream-filter-based-on-a-condition
+        var laptimes = laptimeRepository.all()
+        if (trackId != null) laptimes = laptimes.filter { it.track.id == trackId }
+        if (driverId != null) laptimes = laptimes.filter { it.driver.id == driverId }
+
+        return laptimes.sortedBy { it.time }
+    }
 
     @GetMapping(value = "/{id}",
         produces = arrayOf(APPLICATION_JSON_UTF8_VALUE))
     fun byId(@PathVariable id: Int) = laptimeRepository.get(id)
-
-
-    @GetMapping(value = "/track/{id}", produces = arrayOf(APPLICATION_JSON_UTF8_VALUE))
-    fun fastestByTrackId(@PathVariable("id") trackId: Int): List<Laptime> {
-        // TODO petves:  proxy to fastestByParameters
-        val track = trackRepository.get(trackId)
-        return laptimeRepository.all()
-            .filter { it.track == track }
-            .sortedBy { it.time }
-    }
-
-    @GetMapping(value = "/driver/{id}", produces = arrayOf(APPLICATION_JSON_UTF8_VALUE))
-    fun fastestByDriverId(@PathVariable("id") driverId: Int): List<Laptime> {
-        // TODO petves:  proxy to fastestByParameters
-        val driver = driverRepository.get(driverId)
-        return laptimeRepository.all()
-            .filter { it.driver == driver }
-            .sortedBy { it.track.name }
-            .sortedBy { it.kart }
-    }
-
-
 }
 
