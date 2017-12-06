@@ -101,4 +101,14 @@ class LaptimeControllerTest : WebIntegrationTest() {
         val resultLaptime = objectMapper.readValue(body.contentAsString, Laptime::class.java)
         assertThat(resultLaptime).isEqualTo(laptime)
     }
+
+    @Test
+    fun byIdNotFoundShouldReturn404() {
+        val laptimeId = -1
+        `when`(laptimeRepository.get(laptimeId)).thenReturn(null)
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/laptimes/$laptimeId"))
+            .andExpect(status().isNotFound)
+            .andExpect(content().string(""))
+    }
 }

@@ -76,6 +76,12 @@ class LaptimeController(val laptimeRepository: LaptimeRepository) {
 
     @GetMapping(value = "/{id}",
         produces = arrayOf(APPLICATION_JSON_UTF8_VALUE))
-    fun byId(@PathVariable id: Int) = laptimeRepository.get(id)
+    fun byId(@PathVariable id: Int, response: HttpServletResponse): Laptime? {
+        val laptime = laptimeRepository.get(id)
+        if (laptime == null) {
+            response.status = HttpStatus.NOT_FOUND.value()
+        }
+        return laptime
+    }
 }
 
