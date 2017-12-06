@@ -67,26 +67,32 @@ class LaptimeController(
     val driverRepository: DriverRepository) {
 
     @GetMapping(produces = arrayOf(APPLICATION_JSON_UTF8_VALUE))
-    fun all() = trackRepository.all()
+    fun all() = laptimeRepository.all()
 
-    @GetMapping(value = "/track/{id}",
+    @GetMapping(value = "/{id}",
         produces = arrayOf(APPLICATION_JSON_UTF8_VALUE))
+    fun byId(@PathVariable id: Int) = laptimeRepository.get(id)
+
+
+    @GetMapping(value = "/track/{id}", produces = arrayOf(APPLICATION_JSON_UTF8_VALUE))
     fun fastestByTrackId(@PathVariable("id") trackId: Int): List<Laptime> {
+        // TODO petves:  proxy to fastestByParameters
         val track = trackRepository.get(trackId)
         return laptimeRepository.all()
             .filter { it.track == track }
             .sortedBy { it.time }
     }
 
-    @GetMapping(value = "/driver/{id}",
-        produces = arrayOf(APPLICATION_JSON_UTF8_VALUE))
+    @GetMapping(value = "/driver/{id}", produces = arrayOf(APPLICATION_JSON_UTF8_VALUE))
     fun fastestByDriverId(@PathVariable("id") driverId: Int): List<Laptime> {
+        // TODO petves:  proxy to fastestByParameters
         val driver = driverRepository.get(driverId)
         return laptimeRepository.all()
             .filter { it.driver == driver }
             .sortedBy { it.track.name }
             .sortedBy { it.kart }
     }
+
 
 }
 

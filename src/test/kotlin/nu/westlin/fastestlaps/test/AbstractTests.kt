@@ -1,6 +1,8 @@
 package nu.westlin.fastestlaps.test
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import org.junit.Before
 import org.junit.runner.RunWith
 import org.mockito.MockitoAnnotations
@@ -14,7 +16,10 @@ abstract class WebIntegrationTest {
     @Inject
     lateinit var mockMvc: MockMvc
 
-    val objectMapper = jacksonObjectMapper()
+    val objectMapper =
+        ObjectMapper()
+            .registerModule(JavaTimeModule())   // Needed for LocalDate
+            .registerKotlinModule()
 }
 
 abstract class UnitTest {
