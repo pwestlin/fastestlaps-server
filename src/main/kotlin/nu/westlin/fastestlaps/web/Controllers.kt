@@ -65,13 +65,12 @@ class LaptimeController(val laptimeRepository: LaptimeRepository) {
 
     @GetMapping(produces = arrayOf(APPLICATION_JSON_UTF8_VALUE))
     fun byParameters(@RequestParam(required = false) trackId: Int?, @RequestParam(required = false) driverId: Int?): List<Laptime> {
-        // TODO petves: Insert conditions (trackId != null and driverId != null) directly into the stream, just for learning and fun :)
-        // Se Java example at https://stackoverflow.com/questions/42424191/java-8-applying-stream-filter-based-on-a-condition
-        var laptimes = laptimeRepository.all()
-        if (trackId != null) laptimes = laptimes.filter { it.track.id == trackId }
-        if (driverId != null) laptimes = laptimes.filter { it.driver.id == driverId }
-
-        return laptimes.sortedBy { it.time }
+        return laptimeRepository.all()
+            // Read this as: apply filter only if trackId != null
+            .filter { it -> if (trackId != null) it.track.id == trackId else true }
+            // Read this as: apply filter only if driverId != null
+            .filter { it -> if (driverId != null) it.driver.id == driverId else true }
+            .sortedBy { it.time }
     }
 
     @GetMapping(value = "/{id}",
