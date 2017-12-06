@@ -6,13 +6,15 @@ import nu.westlin.fastestlaps.domain.DriverRepository
 import nu.westlin.fastestlaps.test.WebIntegrationTest
 import nu.westlin.fastestlaps.test.adam
 import nu.westlin.fastestlaps.test.allDrivers
+import nu.westlin.fastestlaps.test.peter
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.mockito.Mockito.`when`
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
@@ -27,7 +29,7 @@ class DriverControllerTest : WebIntegrationTest() {
     fun all() {
         `when`(repository.all()).thenReturn(allDrivers)
 
-        val body = mockMvc.perform(MockMvcRequestBuilders.get("/drivers"))
+        val body = mockMvc.perform(get("/drivers"))
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk)
             .andReturn().response
@@ -43,11 +45,33 @@ class DriverControllerTest : WebIntegrationTest() {
         `when`(repository.get(driver.id)).thenReturn(driver)
 
         val body =
-            mockMvc.perform(MockMvcRequestBuilders.get("/drivers/${driver.id}"))
+            mockMvc.perform(get("/drivers/${driver.id}"))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk)
                 .andReturn().response
         val resultDriver = objectMapper.readValue(body.contentAsString, Driver::class.java)
         assertThat(resultDriver).isEqualTo(driver)
+    }
+
+    @Test
+    fun create() {
+        val driver = peter
+
+        mockMvc
+            .perform(post("/drivers").content(objectMapper.writeValueAsString(driver)).contentType(MediaType.APPLICATION_JSON_UTF8))
+            .andExpect(status().isOk)
+            .andExpect(content().string(""))
+    }
+
+    @Test
+    fun createShouldReturn406WhenDriverAlreadyExist() {
+        val driver = peter
+
+        `when`(repository.create(driver)).thenThrow(IllegalArgumentException("Driver $driver already exist"))
+
+        mockMvc
+            .perform(post("/drivers").content(objectMapper.writeValueAsString(driver)).contentType(MediaType.APPLICATION_JSON_UTF8))
+            .andExpect(status().isNotAcceptable)
+            .andExpect(content().string(""))
     }
 }

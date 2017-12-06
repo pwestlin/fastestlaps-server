@@ -5,6 +5,7 @@ import nu.westlin.fastestlaps.test.allTracks
 import nu.westlin.fastestlaps.test.amsberg
 import nu.westlin.fastestlaps.test.hedemora
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import org.junit.Test
 
 class InMemoryTrackRepositoryTest : UnitTest() {
@@ -21,5 +22,13 @@ class InMemoryTrackRepositoryTest : UnitTest() {
     fun get() {
         assertThat(repository.get(hedemora.id))
             .isEqualTo(hedemora)
+    }
+
+    @Test
+    fun createShouldThrowIllegalArgumentExceptionWhenIdAlreadyStored() {
+        val track = repository.all().first()
+        assertThatIllegalArgumentException().isThrownBy({ repository.create(track) })
+            .withMessage("An entity with id ${track.id} is already stored")
+            .withNoCause()
     }
 }
