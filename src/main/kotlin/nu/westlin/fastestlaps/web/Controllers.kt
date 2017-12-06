@@ -64,13 +64,19 @@ class TrackController(val trackRepository: TrackRepository) {
 class LaptimeController(val laptimeRepository: LaptimeRepository) {
 
     @GetMapping(produces = arrayOf(APPLICATION_JSON_UTF8_VALUE))
-    fun byParameters(@RequestParam(required = false) trackId: Int?, @RequestParam(required = false) driverId: Int?): List<Laptime> {
+    fun byParameters(
+        @RequestParam(required = false) trackId: Int?,
+        @RequestParam(required = false) driverId: Int?,
+        @RequestParam(required = false) kart: Kart?
+    ): List<Laptime> {
         return laptimeRepository.all()
             // Read this as: apply filter only if trackId != null
             .filter { it -> if (trackId != null) it.track.id == trackId else true }
             // Read this as: apply filter only if driverId != null
             .filter { it -> if (driverId != null) it.driver.id == driverId else true }
-            .sortedBy { it.time }
+            // Read this as: apply filter only if kart != null
+            .filter { it -> if (kart != null) it.kart == kart else true }
+            .sortedWith(compareBy({ it.track.name }, { it.time }))
     }
 
     @GetMapping(value = "/{id}",

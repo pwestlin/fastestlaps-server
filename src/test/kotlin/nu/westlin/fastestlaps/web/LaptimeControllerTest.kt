@@ -2,6 +2,7 @@ package nu.westlin.fastestlaps.web
 
 import com.fasterxml.jackson.module.kotlin.readValue
 import nu.westlin.fastestlaps.domain.DriverRepository
+import nu.westlin.fastestlaps.domain.Kart.KZ2
 import nu.westlin.fastestlaps.domain.Laptime
 import nu.westlin.fastestlaps.domain.LaptimeRepository
 import nu.westlin.fastestlaps.domain.TrackRepository
@@ -72,6 +73,19 @@ class LaptimeControllerTest : WebIntegrationTest() {
         val laptimes: List<Laptime> = this.objectMapper.readValue(body.contentAsString)
 
         assertThat(laptimes).containsExactlyInAnyOrder(*allLaptimes.filter { it.driver.id == driver.id }.toTypedArray())
+    }
+
+    @Test
+    fun byParametersKart() {
+        val kart = KZ2
+        val body = mockMvc.perform(MockMvcRequestBuilders.get("/laptimes?kart=$kart"))
+            .andExpect(content().contentType(APPLICATION_JSON_UTF8))
+            .andExpect(status().isOk)
+            .andReturn().response
+
+        val laptimes: List<Laptime> = this.objectMapper.readValue(body.contentAsString)
+
+        assertThat(laptimes).containsExactlyInAnyOrder(*allLaptimes.filter { it.kart == kart }.toTypedArray())
     }
 
     @Test
