@@ -239,6 +239,7 @@ All examples below use HTTPie.
 
 #### By kart
 ```http -b "http://localhost:8080/laptimes?kart=JUNIOR125"```
+<details><summary>Reply</summary><p>
 ```json
 [
     {
@@ -273,7 +274,7 @@ All examples below use HTTPie.
     }
 ]
 ```
-
+</p></details>
 
 
 <details><summary>stuff with *mark* **down**</summary><p>
