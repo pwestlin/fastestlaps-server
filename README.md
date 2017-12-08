@@ -163,62 +163,6 @@ All examples below use HTTPie.
 ```
 </details>
 
-#### By track(id)
-```http -b "http://localhost:8080/laptimes?trackId=1"```
-
-<details>
- <summary>Reply</summary>
- 
-```json
-[
-    {
-        "date": "2017-12-03", 
-        "description": null, 
-        "driver": {
-            "id": 1, 
-            "name": "Peter"
-        }, 
-        "id": 2, 
-        "kart": "KZ2", 
-        "time": 30.81, 
-        "track": {
-            "id": 1, 
-            "name": "Hedemora"
-        }
-    }, 
-    {
-        "date": "2017-11-04", 
-        "description": null, 
-        "driver": {
-            "id": 1, 
-            "name": "Peter"
-        }, 
-        "id": 1, 
-        "kart": "KZ2", 
-        "time": 31.26, 
-        "track": {
-            "id": 1, 
-            "name": "Hedemora"
-        }
-    }, 
-    {
-        "date": "2017-11-23", 
-        "description": null, 
-        "driver": {
-            "id": 2, 
-            "name": "Adam"
-        }, 
-        "id": 3, 
-        "kart": "JUNIOR125", 
-        "time": 31.29, 
-        "track": {
-            "id": 1, 
-            "name": "Hedemora"
-        }
-    }
-]
-```
-</details>
 
 #### By driver(id) and track(id)
 ```http -b "http://localhost:8080/laptimes?trackId=1&driverId=1"
