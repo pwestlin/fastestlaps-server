@@ -15,6 +15,9 @@ All examples below use HTTPie.
 
 ### All
 ```http -b "http://localhost:8080/drivers"```
+<details>
+ <summary>Reply</summary>
+ 
 ```json
 [
     {
@@ -27,15 +30,20 @@ All examples below use HTTPie.
     }
 ]
 ```
+</details>
 
 #### By id
 ```http -b "http://localhost:8080/drivers/1"```
+<details>
+ <summary>Reply</summary>
+ 
 ```json
 {
     "id": 1, 
     "name": "Peter"
 }
 ```
+</details>
 
 #### Create new
 ```http -b POST "http://localhost:8080/drivers" id=3 name=Felix```
@@ -44,6 +52,9 @@ All examples below use HTTPie.
 
 #### All
 ```http -b "http://localhost:8080/laptimes"```
+<details>
+ <summary>Reply</summary>
+ 
 ```json
 [
     {
@@ -108,10 +119,14 @@ All examples below use HTTPie.
     }
 ]
 ```
+</details>
 
 #### By driver(id)
 ```http -b "http://localhost:8080/laptimes?driverId=1"```
 
+<details>
+ <summary>Reply</summary>
+ 
 ```json
 [
     {
@@ -146,10 +161,14 @@ All examples below use HTTPie.
     }
 ]
 ```
+</details>
 
 #### By track(id)
 ```http -b "http://localhost:8080/laptimes?trackId=1"```
 
+<details>
+ <summary>Reply</summary>
+ 
 ```json
 [
     {
@@ -199,9 +218,13 @@ All examples below use HTTPie.
     }
 ]
 ```
+</details>
 
 #### By driver(id) and track(id)
 ```http -b "http://localhost:8080/laptimes?trackId=1&driverId=1"
+<details>
+ <summary>Reply</summary>
+ 
 ```json
 [
     {
@@ -236,6 +259,7 @@ All examples below use HTTPie.
     }
 ]
 ```
+</details>
 
 #### By kart
 ```http -b "http://localhost:8080/laptimes?kart=JUNIOR125"```
