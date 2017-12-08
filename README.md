@@ -1,7 +1,7 @@
 # My familys lap times in karting - server
 Just playing around with Kotlin and REST... :)
 
-This will act as a server for my upcoming application "fastestlaps-client", that will be a frontend implemented in [ReactJS](https://reactjs.org).
+This acts as a server for [fastestlaps client](https://github.com/pwestlin/fastestlaps-web), that will be a frontend implemented in [ReactJS](https://reactjs.org).
 
 ## Application data
 The application is pre-loaded with some test data. 
