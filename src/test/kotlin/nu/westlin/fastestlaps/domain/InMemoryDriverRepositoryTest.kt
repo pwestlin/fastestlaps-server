@@ -32,4 +32,12 @@ class InMemoryDriverRepositoryTest : UnitTest() {
             .withNoCause()
     }
 
+    @Test
+    fun foo() {
+        val elements = 1..10
+        val output = elements.asSequence().filter { it < 5 }
+        output.forEach(::println)
+        output.forEach { println(it) }
+    }
+
 }

@@ -37,7 +37,13 @@ class DriverController(val driverRepository: DriverRepository) {
 
     @GetMapping(value = "/{id}",
         produces = arrayOf(APPLICATION_JSON_UTF8_VALUE))
-    fun byId(@PathVariable id: Int) = driverRepository.get(id)
+    fun byId(@PathVariable id: Int, response: HttpServletResponse): Driver? {
+        val driver = driverRepository.get(id)
+        if (driver == null) {
+            response.status = HttpStatus.NOT_FOUND.value()
+        }
+        return driver
+    }
 
     @PostMapping(consumes = arrayOf(APPLICATION_JSON_UTF8_VALUE))
     fun create(@RequestBody driver: Driver) = driverRepository.create(driver)
@@ -53,7 +59,13 @@ class TrackController(val trackRepository: TrackRepository) {
 
     @GetMapping(value = "/{id}",
         produces = arrayOf(APPLICATION_JSON_UTF8_VALUE))
-    fun byId(@PathVariable id: Int) = trackRepository.get(id)
+    fun byId(@PathVariable id: Int, response: HttpServletResponse): Track? {
+        val track = trackRepository.get(id)
+        if (track == null) {
+            response.status = HttpStatus.NOT_FOUND.value()
+        }
+        return track
+    }
 
     @PostMapping(consumes = arrayOf(APPLICATION_JSON_UTF8_VALUE))
     fun create(@RequestBody track: Track) = trackRepository.create(track)

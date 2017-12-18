@@ -7,6 +7,7 @@ import java.time.LocalDate
 
 @Configuration
 class RepositoriesConfiguration {
+    // TODO petves: Fix inits with atomic long/int and "stream": http://www.youtube.com/watch?v=h6nMjjxJWjk&t=8m32s
 
     @Bean
     fun inMemoryDriverRepository(): InMemoryDriverRepository {

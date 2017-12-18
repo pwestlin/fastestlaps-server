@@ -13,6 +13,7 @@ import org.mockito.Mockito.`when`
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
@@ -72,6 +73,16 @@ class DriverControllerTest : WebIntegrationTest() {
         mockMvc
             .perform(post("/drivers").content(objectMapper.writeValueAsString(driver)).contentType(MediaType.APPLICATION_JSON_UTF8))
             .andExpect(status().isNotAcceptable)
+            .andExpect(content().string(""))
+    }
+
+    @Test
+    fun byIdNotFoundShouldReturn404() {
+        val driverId = -1
+        `when`(repository.get(driverId)).thenReturn(null)
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/drivers/$driverId"))
+            .andExpect(status().isNotFound)
             .andExpect(content().string(""))
     }
 }

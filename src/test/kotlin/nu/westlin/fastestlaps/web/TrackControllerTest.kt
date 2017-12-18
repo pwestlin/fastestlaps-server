@@ -50,4 +50,15 @@ class TrackControllerTest : WebIntegrationTest() {
         val resultTrack = objectMapper.readValue(body.contentAsString, Track::class.java)
         assertThat(resultTrack).isEqualTo(track)
     }
+
+    @Test
+    fun byIdNotFoundShouldReturn404() {
+        val trackId = -1
+        `when`(repository.get(trackId)).thenReturn(null)
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/tracks/$trackId"))
+            .andExpect(status().isNotFound)
+            .andExpect(content().string(""))
+    }
+
 }

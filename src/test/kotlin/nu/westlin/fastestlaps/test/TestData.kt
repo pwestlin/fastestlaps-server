@@ -7,7 +7,9 @@ import nu.westlin.fastestlaps.domain.Laptime
 import nu.westlin.fastestlaps.domain.Track
 import java.time.LocalDate
 
-// TODO petves: Movie this class to src (or extend it from src)?
+// TODO petves: Move this class to src (or extend it from src)?
+// TODO petves: Fix inits with atomic long/int and "stream": http://www.youtube.com/watch?v=h6nMjjxJWjk&t=8m32s
+
 val peter = Driver(1, "Peter")
 val adam = Driver(2, "Adam")
 val allDrivers = mutableListOf(peter, adam)
