@@ -34,7 +34,7 @@ class TrackControllerTest : WebIntegrationTest() {
 
         val tracks: List<Track> = this.objectMapper.readValue(body.contentAsString)
 
-        assertThat(tracks).isEqualTo(allTracks)
+        assertThat(tracks).containsExactlyInAnyOrder(*allTracks.toTypedArray())
     }
 
     @Test

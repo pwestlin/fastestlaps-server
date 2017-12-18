@@ -37,7 +37,7 @@ class DriverControllerTest : WebIntegrationTest() {
 
         val drivers: List<Driver> = this.objectMapper.readValue(body.contentAsString)
 
-        assertThat(drivers).isEqualTo(allDrivers)
+        assertThat(drivers).containsExactlyInAnyOrder(*allDrivers.toTypedArray())
     }
 
     @Test

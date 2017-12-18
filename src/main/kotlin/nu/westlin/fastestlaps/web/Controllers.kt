@@ -33,7 +33,7 @@ class HomeController {
 class DriverController(val driverRepository: DriverRepository) {
 
     @GetMapping(produces = arrayOf(APPLICATION_JSON_UTF8_VALUE))
-    fun all() = driverRepository.all()
+    fun all() = driverRepository.all().sortedBy { it.name }
 
     @GetMapping(value = "/{id}",
         produces = arrayOf(APPLICATION_JSON_UTF8_VALUE))
@@ -55,7 +55,7 @@ class DriverController(val driverRepository: DriverRepository) {
 class TrackController(val trackRepository: TrackRepository) {
 
     @GetMapping(produces = arrayOf(APPLICATION_JSON_UTF8_VALUE))
-    fun all() = trackRepository.all()
+    fun all() = trackRepository.all().sortedBy { it.name }
 
     @GetMapping(value = "/{id}",
         produces = arrayOf(APPLICATION_JSON_UTF8_VALUE))
