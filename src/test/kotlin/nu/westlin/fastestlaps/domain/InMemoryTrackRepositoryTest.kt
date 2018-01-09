@@ -1,9 +1,6 @@
 package nu.westlin.fastestlaps.domain
 
-import nu.westlin.fastestlaps.test.UnitTest
-import nu.westlin.fastestlaps.test.allTracks
-import nu.westlin.fastestlaps.test.amsberg
-import nu.westlin.fastestlaps.test.hedemora
+import nu.westlin.fastestlaps.test.*
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import org.junit.Test
@@ -15,7 +12,7 @@ class InMemoryTrackRepositoryTest : UnitTest() {
     @Test
     fun all() {
         assertThat(repository.all())
-            .containsExactlyInAnyOrder(hedemora, amsberg)
+            .containsExactlyInAnyOrder(hedemora, amsberg, vasteras)
     }
 
     @Test

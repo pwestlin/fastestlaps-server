@@ -12,11 +12,13 @@ import java.time.LocalDate
 
 val peter = Driver(1, "Peter")
 val adam = Driver(2, "Adam")
-val allDrivers = mutableListOf(peter, adam)
+val felix = Driver(2, "Felix")
+val allDrivers = mutableListOf(peter, adam, felix)
 
 val hedemora = Track(1, "Hedemora")
 val amsberg = Track(2, "Amsberg")
-val allTracks = mutableListOf(hedemora, amsberg)
+val vasteras = Track(3, "Västerås")
+val allTracks = mutableListOf(hedemora, amsberg, vasteras)
 
 
 val laptimePeterHedemora1 = Laptime(1, LocalDate.now().minusDays(32), peter, KZ2, hedemora, 31.26)

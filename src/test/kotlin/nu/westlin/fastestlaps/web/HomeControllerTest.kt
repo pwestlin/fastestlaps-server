@@ -14,6 +14,6 @@ class HomeControllerTest : WebIntegrationTest() {
     fun root() {
         mockMvc.perform(get("/"))
             .andExpect(status().isOk)
-            .andExpect(content().string("Hello, I am the kart server. How may I help you?"))
+            .andExpect(content().string("Hello, I am the kart laptime server. How may I help you?"))
     }
 }

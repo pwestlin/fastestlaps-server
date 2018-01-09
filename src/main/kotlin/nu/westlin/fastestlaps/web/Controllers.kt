@@ -24,7 +24,7 @@ class WebExceptionHandler {
 class HomeController {
 
     @GetMapping("/")
-    fun home() = "Hello, I am the kart server. How may I help you?"
+    fun home() = "Hello, I am the kart laptime server. How may I help you?"
 
 }
 
@@ -79,16 +79,30 @@ class LaptimeController(val laptimeRepository: LaptimeRepository) {
     fun byParameters(
         @RequestParam(required = false) trackId: Int?,
         @RequestParam(required = false) driverId: Int?,
-        @RequestParam(required = false) kart: Kart?
+        @RequestParam(required = false) kart: Kart?,
+        @RequestParam(required = false) fastest: Boolean?
     ): List<Laptime> {
-        return laptimeRepository.all()
+        var laptimes = laptimeRepository.all()
             // Read this as: apply filter only if trackId != null
             .filter { it -> if (trackId != null) it.track.id == trackId else true }
             // Read this as: apply filter only if driverId != null
             .filter { it -> if (driverId != null) it.driver.id == driverId else true }
             // Read this as: apply filter only if kart != null
             .filter { it -> if (kart != null) it.kart == kart else true }
-            .sortedWith(compareBy({ it.track.name }, { it.time }))
+
+        if (fastest == true) {
+            laptimes = this.getFastestLaptimesPerClass(laptimes)
+        }
+
+        return laptimes.sortedWith(compareBy({ it.track.name }, { it.time }))
+    }
+
+    internal fun getFastestLaptimesPerClass(laptimes: List<Laptime>): List<Laptime> {
+        return laptimes
+            .groupBy { it.track }
+            //.map { it.value.minBy { it.time } }
+            .flatMap { it.value.groupBy { it.kart.name }.map { it.value.minBy { it.time } } }
+            .filterNotNull()
     }
 
     @GetMapping(value = "/{id}",

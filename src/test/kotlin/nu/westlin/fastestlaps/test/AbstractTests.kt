@@ -24,6 +24,12 @@ abstract class WebIntegrationTest {
 
 abstract class UnitTest {
 
+    val objectMapper =
+        ObjectMapper()
+            .registerModule(JavaTimeModule())   // Needed for LocalDate
+            .registerKotlinModule()
+
+
     @Before
     fun setupMockito() {
         MockitoAnnotations.initMocks(this)

@@ -50,6 +50,22 @@ class LaptimeControllerTest : WebIntegrationTest() {
     }
 
     @Test
+    fun byParametersFastest() {
+        val body = mockMvc.perform(MockMvcRequestBuilders.get("/laptimes?fastest=true"))
+            .andExpect(content().contentType(APPLICATION_JSON_UTF8))
+            .andExpect(status().isOk)
+            .andReturn().response
+
+        val laptimes: List<Laptime> = this.objectMapper.readValue(body.contentAsString)
+
+        assertThat(laptimes).containsExactlyInAnyOrder(
+            laptimePeterHedemora2,
+            laptimeAdamHedemora3,
+            laptimeAdamAmsberg4
+        )
+    }
+
+    @Test
     fun byParametersTrackId() {
         val track = hedemora
         val body = mockMvc.perform(MockMvcRequestBuilders.get("/laptimes?trackId=${track.id}"))
@@ -125,4 +141,5 @@ class LaptimeControllerTest : WebIntegrationTest() {
             .andExpect(status().isNotFound)
             .andExpect(content().string(""))
     }
+
 }

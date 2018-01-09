@@ -1,9 +1,6 @@
 package nu.westlin.fastestlaps.domain
 
-import nu.westlin.fastestlaps.test.UnitTest
-import nu.westlin.fastestlaps.test.adam
-import nu.westlin.fastestlaps.test.allDrivers
-import nu.westlin.fastestlaps.test.peter
+import nu.westlin.fastestlaps.test.*
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
@@ -15,7 +12,7 @@ class InMemoryDriverRepositoryTest : UnitTest() {
     @Test
     fun all() {
         assertThat(repository.all())
-            .containsExactlyInAnyOrder(peter, adam)
+            .containsExactlyInAnyOrder(peter, adam, felix)
     }
 
     @Test
